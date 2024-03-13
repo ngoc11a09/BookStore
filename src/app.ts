@@ -1,28 +1,23 @@
-import express from "express";
-import cors from "cors"
-import compression from "compression"
-import cookieParser from "cookie-parser"
-const app = express();
+import express, {Express} from "express";
+import Logger from 'bunyan'
+import {config} from '@root/config'
+import DatabaseConnection from '@root/setupDatabase'
+import Server from '@root/server'
 
-app.use(cors());
+const log : Logger = config.createLogger('app')
 
-app.use(compression({
-    level: 6,
-    threshold: 100000
-}));
-app.use(cookieParser());
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+class Application {
+    public init(): void {
+        this.loadConfig();
+        DatabaseConnection()
+        const app = express()
+        const server: Server = new Server(app)
+        server.start()
+    }
+    private loadConfig(): void {
+        config.validateConfig()
+    }
+}
 
-
-// app.use((req, res, next) => {
-//   //code khi notfound
-//   return next(new ApiError(404, "Resource not found!"));
-// });
-// app.use((err, req, res, next) => {
-//   return res.status(err.statusCode || 500).json({
-//     message: err.message || "Internal Server Error",
-//   });
-// // });
-
-export default app;
+const application: Application = new Application()
+application.init()
