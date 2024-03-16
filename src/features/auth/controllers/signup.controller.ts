@@ -5,70 +5,40 @@ import { IAuthDocument, ISignUpData } from "@auth/interfaces/auth.interface";
 import { authService } from "@auth/services/auth.service";
 import { BadRequestError } from "@root/shared/utils/error-handler";
 import { Util } from "@root/shared/utils/util";
-import  jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { config } from '@root/config';
 import { IUserDocument } from "@user/interfaces/user.interface";
 import { joiValidation } from "@root/shared/decorators/joi-validation.decorator";
 import { signUpSchema } from "../schemas/signup.schema";
+import { userService } from "@root/features/user/services/user.service";
 
 export class SignUp {
     @joiValidation(signUpSchema)
     public async create(req: Request, res: Response): Promise<void> {
-        const { username, password, email} = req.body
-        const isUserExist: IAuthDocument = await authService.getUserByUsernameEmail(username,email)
+        const { username, password, email } = req.body
+        const isUserExist: IUserDocument = await userService.getUserByUsernameEmail(username, email)
         if (isUserExist) {
-            throw new BadRequestError('Invalid credentials')
+            throw new BadRequestError('Invalid credentials') //chung chi
         }
-        const authObjectId: ObjectId = new ObjectId()
         const userObjectId: ObjectId = new ObjectId()
         const uId = `${Util.randomInt(10)}`
 
-        const authData: IAuthDocument = SignUp.prototype.signUpData({
-            _id: authObjectId,
-            uId,
-            username,
-            email,
-            password,
-          });
-        authService.createAuthUser(authData)
-        const userJwt: string = SignUp.prototype.signToken(authData, userObjectId)
-        const user: IUserDocument = SignUp.prototype.userData(authData,userObjectId)
-        res.status(HTTP_STATUS.CREATED).json({ message: 'User created successfully', user: user, token: userJwt });
+        const user: IUserDocument = SignUp.prototype.userData({ ...req.body, uId }, userObjectId)
+        const userJwt: string = authService.signToken({ username, password, email } as ISignUpData, userObjectId).accessToken
+        // console.log(user);
+
+        userService.addUserData(user)
+        res.status(HTTP_STATUS.CREATED).json({ message: 'User registered successfully', user: user, accessToken: userJwt });
     }
 
-    private signUpData(data: ISignUpData): IAuthDocument {
-        const { _id, username, email, uId, password } = data;
-        return {
-          _id,
-          uId,
-          username,
-          email: Util.lowerCase(email),
-          password,
-        } as IAuthDocument;
-    }
-
-    private signToken(data: IAuthDocument, userObjectId: ObjectId): string {
-        return jwt.sign({
-            userId: userObjectId,
-            uId: data.uId,
-            email: data.email,
-            username: data.username,
-        },
-        config.JWT_TOKEN!
-        )
-    }
-
-    private userData(data: IAuthDocument, userObjectId: ObjectId): IUserDocument {
-        const { _id, username, email, password, uId } = data
+    private userData(data: ISignUpData, userObjectId: ObjectId): IUserDocument {
+        const { username, email, password, uId } = data
         return {
             _id: userObjectId,
-            authId: _id,
             uId,
             username,
-            email,
+            email: Util.lowerCase(email),
             password,
-            location: '',
-            borrowed: 0
         } as IUserDocument
-    }
+    } // init user's data
 }

@@ -2,7 +2,7 @@ import { NextFunction, Request, Response } from "express";
 import { NotAuthorizedError } from "./error-handler";
 import jwt from 'jsonwebtoken'
 import Logger from "bunyan";
-import {config} from '@root/config'
+import { config } from '@root/config'
 import { AuthPayload } from "@root/features/auth/interfaces/auth.interface";
 
 const log: Logger = config.createLogger('AuthMiddleware')
@@ -16,9 +16,9 @@ export default class AuthMiddleware {
             throw new NotAuthorizedError('Token is not available. Please login again.')
 
         try {
-            const payload: AuthPayload = jwt.verify(token, config.JWT_TOKEN!) as AuthPayload
+            const payload: AuthPayload = jwt.verify(token, config.JWT_ACCESS_TOKEN!) as AuthPayload
             req.currentUser = payload
-        } catch(error){
+        } catch (error) {
             log.error('Verification failed')
         }
         next()

@@ -2,7 +2,7 @@ import { ObjectId } from "mongodb"
 import { Document } from "mongoose"
 
 declare global {
-    namespace Express{
+    namespace Express {
         interface Request {
             currentUser: AuthPayload
         }
@@ -12,9 +12,9 @@ declare global {
 export interface AuthPayload {
     userId: string,
     uId: string,
-    email:string,
+    email: string,
     userName: string,
-    iat?:number
+    iat?: number
 }
 
 export interface IAuthDocument extends Document {
@@ -23,12 +23,13 @@ export interface IAuthDocument extends Document {
     username: string
     password?: string
     email: string
-    createAt: Date
+    createdAt: Date
     updatedAt: Date
-    passwordResetToken?: string 
+    passwordResetToken?: string
     passwordResetExpires?: number | string
     comparePassword(password: string): Promise<boolean>
     hashPassword(password: string): Promise<string>
+    refreshToken: string | null
 }
 
 export interface ISignUpData {
@@ -36,5 +37,5 @@ export interface ISignUpData {
     uId: string
     email: string
     username: string
-    password: string
+    password: string,
 }
