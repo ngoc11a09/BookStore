@@ -31,3 +31,14 @@ export interface IBasicInfo {
     phone: string
     address: string
 }
+
+export interface ISearchUser {
+    _id: string
+    username: string
+    email: string
+}
+
+export interface IAllUsers {
+    users: IUserDocument[]
+    totalUsers: number
+}

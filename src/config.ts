@@ -9,7 +9,10 @@ class Config {
     public JWT_REFRESH_TOKEN: string | null;
     public ACCESS_TOKEN_EXPIRESIN: string;
     public REFRESH_TOKEN_EXPIRESIN: string;
-
+    public NODE_ENV: string | undefined;
+    public SECRET_KEY_ONE: string | undefined;
+    public SECRET_KEY_TWO: string | undefined;
+    public CLIENT_URL: string | undefined
 
     private readonly DEFAULT_DATABASE_URL = "";
 
@@ -19,6 +22,10 @@ class Config {
         this.JWT_REFRESH_TOKEN = process.env.JWT_REFRESH_TOKEN || "4321";
         this.ACCESS_TOKEN_EXPIRESIN = process.env.ACCESS_TOKEN_EXPIRESIN || "5m";
         this.REFRESH_TOKEN_EXPIRESIN = process.env.REFRESH_TOKEN_EXPIRESIN || "1h";
+        this.SECRET_KEY_ONE = process.env.SECRET_KEY_ONE || ""
+        this.NODE_ENV = process.env.NODE_ENV || ""
+        this.CLIENT_URL = process.env.CLIENT_URL || ""
+        this.SECRET_KEY_TWO = process.env.SECRET_KEY_TWO || ""
     }
 
     public createLogger(name: string): bunyan {

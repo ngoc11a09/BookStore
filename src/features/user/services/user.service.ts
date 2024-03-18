@@ -1,30 +1,8 @@
-import mongoose from "mongoose";
 import { IBasicInfo, IUserDocument } from "../interfaces/user.interface";
 import { UserModel } from "../models/user.schema";
-import { ObjectId } from "mongodb";
-import { IAuthDocument } from "@root/features/auth/interfaces/auth.interface";
-import { AuthModel } from "@root/features/auth/models/auth.schema";
 import { Util } from "@root/shared/utils/util";
 
 class UserService {
-
-    private aggregateProject() {
-        return {
-            _id: 1,
-            username: '$authId.username',
-            uId: '$authId.uId',
-            email: '$authId.email',
-            createdAt: "$authId.createdAt",
-            updatedAt: "$authId.updatedAt",
-            borrowed: 1,
-            name: 1,
-            lastName: 1,
-            phone: 1,
-            address: 1,
-            sex: 1,
-            birthday: 1
-        }
-    }
 
     public async addUserData(data: IUserDocument): Promise<void> {
         await UserModel.create(data)
@@ -34,8 +12,27 @@ class UserService {
         const query = {
             $or: [{ username: username }, { email: Util.lowerCase(email) }]
         }
-        const user: IUserDocument = (await UserModel.findOne(query).exec()) as IUserDocument
-        return user
+        return (await UserModel.findOne(query).exec()) as IUserDocument
+    }
+
+    public async getUserByUsername(username: string): Promise<IUserDocument> {
+        return (await UserModel.findOne({ username: username }).exec()) as IUserDocument
+    }
+
+    public async getUserByEmail(email: string): Promise<IUserDocument> {
+        return (await UserModel.findOne({ email: Util.lowerCase(email) }).exec()) as IUserDocument
+    }
+
+    public async getUserById(userId: string): Promise<IUserDocument> {
+        return (await UserModel.findOne({ _id: userId }).exec()) as IUserDocument
+    }
+
+    public async getUserByPasswordToken(token: string): Promise<IUserDocument> {
+        const user: IUserDocument = (await UserModel.findOne({
+            passwordResetToken: token,
+            passwordResetExpires: { $gt: Date.now() }
+        }).exec()) as IUserDocument;
+        return user;
     }
 
     public async updatePassword(username: string, hashedPassword: string): Promise<void> {
@@ -54,18 +51,6 @@ class UserService {
         }).exec()
     }
 
-    public async getUserByAuthId(authId: string): Promise<IUserDocument> {
-        // console.log({ authId });
-        const user: IUserDocument[] = await UserModel.aggregate(
-            //     [
-            //     { $match: { authId: new mongoose.Types.ObjectId(authId) } },
-            //     { $lookup: { from: 'Auth', localField: 'authId', foreignField: '_id', as: 'authId' } },
-            //     { $unwind: '$authId' },
-            //     { $project: this.aggregateProject() }
-            // ]
-        )
-        return user[0]
-    }
 }
 
 export const userService: UserService = new UserService()

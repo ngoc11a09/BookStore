@@ -17,12 +17,6 @@ class AuthRoutes {
 
         return this.router
     }
-
-    public signoutRoute(): Router {
-        // this.router.get('/signout',SignOut.prototype.update)
-
-        return this.router
-    }
 }
 
 export const authRoutes: AuthRoutes = new AuthRoutes()

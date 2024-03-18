@@ -19,7 +19,7 @@ export default class Server {
     this.sercurityMiddleware(this.app)
     this.standardMiddleware(this.app)
     this.routesMiddleware(this.app)
-    // this.globalErrorHandler(this.app)
+    this.globalErrorHandler(this.app)
     this.startServer(this.app)
   }
 
