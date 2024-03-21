@@ -13,7 +13,7 @@ class BookRoutes {
     public routes(): Router {
         this.router.post('/addbook', authMiddleware.verifyUser, authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Book.prototype.create)
         // this.router.post('/addbook', Book.prototype.create)
-        this.router.get('/', Book.prototype.getAllBook)
+        this.router.get('/', Book.prototype.getAll)
 
         return this.router
     }

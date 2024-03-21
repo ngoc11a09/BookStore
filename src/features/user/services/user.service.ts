@@ -8,6 +8,10 @@ class UserService {
         await UserModel.create(data)
     }
 
+    public async getAllUsers(): Promise<IUserDocument[]> {
+        return await UserModel.find({}) as IUserDocument[]
+    }
+
     public async getUserByUsernameEmail(username: string, email: string): Promise<IUserDocument> {
         const query = {
             $or: [{ username: username }, { email: Util.lowerCase(email) }]

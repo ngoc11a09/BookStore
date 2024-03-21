@@ -28,10 +28,10 @@ export class Book {
         }
     }
 
-    public async getAllBook(req: Request, res: Response): Promise<void> {
+    public async getAll(req: Request, res: Response): Promise<void> {
         try {
             const books = await bookService.getAll();
-            res.status(200).json(books);
+            res.status(HTTP_STATUS.OK).json(books);
         } catch (error) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({ message: 'Fail to get all books' })
         }

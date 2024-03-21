@@ -1,6 +1,6 @@
 import { authMiddleware } from "@root/shared/utils/auth-middleware";
 import express, { Router } from "express";
-// import { Get } from "../controllers/get-profile";
+import { User } from "@user/controllers/user.controller";
 
 class UserRoutes {
     private router: Router
@@ -10,10 +10,10 @@ class UserRoutes {
     }
 
     public routes(): Router {
-        // this.router.get('/user/all/:page', authMiddleware.checkAuthentication, Get.prototype.all)
+        this.router.get('/', User.prototype.getAll)
 
         return this.router
     }
 }
 
-export const userRoutes: UserRoutes = new UserRoutes
+export const userRoutes: UserRoutes = new UserRoutes()
