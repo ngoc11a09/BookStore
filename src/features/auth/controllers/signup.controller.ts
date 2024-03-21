@@ -14,16 +14,16 @@ export class SignUp {
     @joiValidation(signUpSchema)
     public async create(req: Request, res: Response): Promise<void> {
         try {
-            const { username, password, email } = req.body
+            const { username, password, email, role } = req.body
             const isUserExist: IUserDocument = await userService.getUserByUsernameEmail(username, email)
             if (isUserExist) {
-                throw new BadRequestError('Username or email existed') //chung chi
+                throw new BadRequestError('Username or email existed')
             }
             const userObjectId: ObjectId = new ObjectId()
             const uId = `${Util.randomInt(10)}`
 
             const user: IUserDocument = SignUp.prototype.userData({ ...req.body, uId }, userObjectId)
-            const userJwt: string = authService.signToken({ username, password, email } as IUserDocument, userObjectId).accessToken
+            const userJwt: string = authService.signToken({ username, password, email, role } as IUserDocument, userObjectId).accessToken
             // console.log(user);
             userService.addUserData(user)
             res.status(HTTP_STATUS.CREATED).json({ message: 'User registered successfully', user: user, accessToken: userJwt });
@@ -38,7 +38,7 @@ export class SignUp {
         return {
             _id: userObjectId,
             uId,
-            username,
+            username: Util.firstLetterUppercase(username),
             email: Util.lowerCase(email),
             password,
         } as IUserDocument

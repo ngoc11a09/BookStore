@@ -14,6 +14,7 @@ export interface AuthPayload {
     uId: string,
     email: string,
     userName: string,
+    role: string,
     iat?: number
 }
 export interface ISignUpData {

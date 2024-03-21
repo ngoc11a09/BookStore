@@ -1,13 +1,11 @@
-import mongoose, { Model, Schema, model } from "mongoose";
+import { Model, Schema, model } from "mongoose";
 import { IUserDocument } from "../interfaces/user.interface";
 import { compare, hash } from "bcrypt";
 
 const userSchema: Schema = new Schema({
-    authId: { type: mongoose.Schema.Types.ObjectId, ref: 'Auth', index: true },
-    passwordResetToken: { type: String, default: '' },
-    passwordResetExprire: { type: Number, default: 0 },
     name: { type: String, default: '' },
     lastName: { type: String, default: '' },
+    role: { type: String, default: 'user' },
     borrowed: { type: Number, default: 0 },
     birthday: { type: Date, default: new Date(1 / 1 / 2000) },
     sex: { type: String, default: 'unknow' },

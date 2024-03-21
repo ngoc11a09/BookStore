@@ -5,16 +5,6 @@ import { IUserDocument } from "@root/features/user/interfaces/user.interface";
 import { UserModel } from "@root/features/user/models/user.schema";
 
 class AuthService {
-    public async updatePasswordToken(userId: string | ObjectId, token: string, tokenExpiration: number): Promise<void> {
-        await UserModel.updateOne(
-            { _id: userId },
-            {
-                passwordResetExpires: tokenExpiration,
-                passwordResetToken: token
-            }
-        )
-    }
-
     public async updateRefreshToken(userId: string | ObjectId, refreshToken: string) {
         await UserModel.updateOne(
             { _id: userId },
@@ -27,7 +17,7 @@ class AuthService {
     public signToken(data: IUserDocument, userObjectId: ObjectId): { accessToken: string, refreshToken: string } {
         const accessToken = jwt.sign({
             userId: userObjectId,
-            uId: data.uId,
+            role: data.role,
             email: data.email,
             username: data.username,
         },
@@ -38,13 +28,12 @@ class AuthService {
         )
         const refreshToken = jwt.sign({
             userId: userObjectId,
-            uId: data.uId,
             email: data.email,
             username: data.username,
         },
             config.JWT_REFRESH_TOKEN!,
             {
-                expiresIn: "1h"
+                expiresIn: "24h"
             }
         )
         return { accessToken, refreshToken }

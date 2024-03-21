@@ -31,7 +31,7 @@ export default class Server {
   private standardMiddleware(app: Application): void {
     app.use(compression());
     app.use(json());  //posting JSON data
-    app.use(urlencoded({ extended: true })); //encoding the parameters in the URL
+    // app.use(urlencoded({ extended: true })); //encoding the parameters in the URL
   }
 
   private routesMiddleware(app: Application): void {

@@ -1,12 +1,13 @@
-import mongoose, { Document } from 'mongoose';
+import { Document } from 'mongoose';
 import { ObjectId } from "mongodb";
 
 export interface IUserDocument extends Document {
     _id: string | ObjectId
-    username?: string
-    password?: string
-    email?: string
-    uId?: string
+    username: string
+    password: string
+    email: string
+    uId: string
+    role: 'user' | 'admin'
     borrowed: number
     address: string
     createdAt: Date
@@ -16,8 +17,6 @@ export interface IUserDocument extends Document {
     birthday: Date
     sex: '0' | '1' | 'unknow'
     phone: string,
-    passwordResetToken?: string
-    passwordResetExpires?: number | string
     comparePassword(password: string): Promise<boolean>
     hashPassword(password: string): Promise<string>
     refreshToken: string | null
@@ -36,9 +35,4 @@ export interface ISearchUser {
     _id: string
     username: string
     email: string
-}
-
-export interface IAllUsers {
-    users: IUserDocument[]
-    totalUsers: number
 }

@@ -24,7 +24,7 @@ class UserService {
     }
 
     public async getUserById(userId: string): Promise<IUserDocument> {
-        return (await UserModel.findOne({ _id: userId }).exec()) as IUserDocument
+        return (await UserModel.findById(userId).exec()) as IUserDocument
     }
 
     public async getUserByPasswordToken(token: string): Promise<IUserDocument> {

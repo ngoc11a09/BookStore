@@ -12,8 +12,6 @@ class AuthRoutes {
     public routes(): Router {
         this.router.post('/signup', SignUp.prototype.create)
         this.router.post('/signin', SignIn.prototype.read)
-        // this.router.post('/forget-password', Password.create)
-        // this.router.post('/reset-password/:token', Password.update)
 
         return this.router
     }
