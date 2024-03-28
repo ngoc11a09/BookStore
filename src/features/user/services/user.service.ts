@@ -1,6 +1,7 @@
 import { IBasicInfo, IUserDocument } from "../interfaces/user.interface";
-import { UserModel } from "../models/user.schema";
+import { UserModel } from "@user/models/user.schema";
 import { Util } from "@root/shared/utils/util";
+import mongoose from "mongoose";
 
 class UserService {
 
@@ -31,28 +32,18 @@ class UserService {
         return (await UserModel.findById(userId).exec()) as IUserDocument
     }
 
-    public async getUserByPasswordToken(token: string): Promise<IUserDocument> {
-        const user: IUserDocument = (await UserModel.findOne({
-            passwordResetToken: token,
-            passwordResetExpires: { $gt: Date.now() }
-        }).exec()) as IUserDocument;
-        return user;
-    }
-
-    public async updatePassword(username: string, hashedPassword: string): Promise<void> {
-        await UserModel.updateOne({ username }, { $set: { password: hashedPassword } }).exec()
-    }
-
     public async updateUserInfo(userId: string, info: IBasicInfo): Promise<void> {
-        await UserModel.updateOne({ _id: userId }, {
-            $set: {
-                address: info['address'],
-                sex: info['sex'],
-                name: info['name'],
-                lastName: info['lastName'],
-                phone: info['phone']
-            }
+        // console.log(userId);
+        const _id = new mongoose.Types.ObjectId(userId)
+        const res = await UserModel.findOneAndUpdate({ _id: _id }, {
+            address: info['address'],
+            sex: info['gender'],
+            name: info['name'],
+            lastName: info['lastName'],
+            phone: info['phone'],
+            birthday: new Date(info['birthday'])
         }).exec()
+
     }
 
 }

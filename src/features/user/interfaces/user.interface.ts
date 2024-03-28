@@ -15,7 +15,7 @@ export interface IUserDocument extends Document {
     name: string
     lastName: string
     birthday: Date
-    sex: '0' | '1' | 'unknow'
+    gender: '0' | '1' | 'unknow'
     phone: string,
     comparePassword(password: string): Promise<boolean>
     hashPassword(password: string): Promise<string>
@@ -26,7 +26,7 @@ export interface IBasicInfo {
     name: string
     lastName: string
     birthday: Date
-    sex: '0' | '1' | 'unknow'
+    gender: '0' | '1' | 'unknow'
     phone: string
     address: string
 }

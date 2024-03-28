@@ -4,7 +4,7 @@ import { Request, Response } from "express";
 import { authService } from "../services/auth.service";
 import { BadRequestError, CustomError } from "@root/shared/utils/error-handler";
 import { IUserDocument } from "@root/features/user/interfaces/user.interface";
-import { userService } from "@root/features/user/services/user.service";
+import { userService } from "@user/services/user.service";
 import HTTP_STATUS from 'http-status-codes';
 import { ObjectId } from "mongodb";
 

@@ -1,6 +1,8 @@
 import { authMiddleware } from "@root/shared/utils/auth-middleware";
 import express, { Router } from "express";
-import { User } from "@user/controllers/user.controller";
+import { Get } from "@root/features/user/controllers/get";
+import { permissionMiddleware } from "@root/shared/utils/permission-middleware";
+import { Info } from "@user/controllers/info";
 
 class UserRoutes {
     private router: Router
@@ -10,7 +12,9 @@ class UserRoutes {
     }
 
     public routes(): Router {
-        this.router.get('/', User.prototype.getAll)
+        this.router.post('/:id', Info.prototype.updateInfo)
+        this.router.get('/', Get.prototype.getAll)
+        this.router.get('/:id', authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Get.prototype.getUser)
 
         return this.router
     }

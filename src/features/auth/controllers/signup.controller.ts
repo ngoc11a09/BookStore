@@ -7,7 +7,7 @@ import { Util } from "@root/shared/utils/util";
 import { IUserDocument } from "@user/interfaces/user.interface";
 import { joiValidation } from "@root/shared/decorators/joi-validation.decorator";
 import { signUpSchema } from "../schemas/signup.schema";
-import { userService } from "@root/features/user/services/user.service";
+import { userService } from "@user/services/user.service";
 import { ISignUpData } from "../interfaces/auth.interface";
 
 export class SignUp {
@@ -38,7 +38,7 @@ export class SignUp {
         return {
             _id: userObjectId,
             uId,
-            username: Util.firstLetterUppercase(username),
+            username,
             email: Util.lowerCase(email),
             password,
         } as IUserDocument

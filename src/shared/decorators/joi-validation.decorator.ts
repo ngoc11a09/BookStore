@@ -7,7 +7,7 @@ type IJoiDecorator = (target: any, key: string, descriptor: PropertyDescriptor) 
 
 export function joiValidation(schema: ObjectSchema): IJoiDecorator {
     return (target: any, key: string, descriptor: PropertyDescriptor) => {
-        const menthod = descriptor.value
+        const method = descriptor.value
         descriptor.value = async function (...args: [Request, Response]) {
             const req: Request = args[0]
             const res: Response = args[1]
@@ -15,7 +15,7 @@ export function joiValidation(schema: ObjectSchema): IJoiDecorator {
 
                 const { error } = await Promise.resolve(schema.validate(req.body))
                 if (error?.details) throw new JoiRequestValidationError(error.details[0].message)
-                return menthod.apply(this, args)
+                return method.apply(this, args)
             }
             catch (error) {
                 if (error instanceof CustomError)
