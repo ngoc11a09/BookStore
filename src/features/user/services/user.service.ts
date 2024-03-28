@@ -35,7 +35,7 @@ class UserService {
     public async updateUserInfo(userId: string, info: IBasicInfo): Promise<void> {
         // console.log(userId);
         const _id = new mongoose.Types.ObjectId(userId)
-        const res = await UserModel.findOneAndUpdate({ _id: _id }, {
+        await UserModel.findOneAndUpdate({ _id: _id }, {
             address: info['address'],
             sex: info['gender'],
             name: info['name'],
@@ -43,7 +43,17 @@ class UserService {
             phone: info['phone'],
             birthday: new Date(info['birthday'])
         }).exec()
+    }
 
+    public async deleteUserById(id: string): Promise<void> {
+        const _id = new mongoose.Types.ObjectId(id)
+        await UserModel.deleteOne({ _id }).exec()
+    }
+
+    public async deleteAllUsers(): Promise<number> {
+        const res = await UserModel.deleteMany({ role: 'user' }).exec()
+
+        return res.deletedCount
     }
 
 }
