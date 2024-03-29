@@ -15,6 +15,7 @@ class BookRoutes {
     public routes(): Router {
         this.router.post('/add', authMiddleware.verifyUser, authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Create.prototype.create)
         this.router.get('/', Get.prototype.getAll)
+        this.router.get('/:id', Get.prototype.getOne)
         this.router.put('/update/:id', authMiddleware.verifyUser, authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Update.prototype.updateBook)
 
 

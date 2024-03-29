@@ -11,4 +11,12 @@ export class Get {
             res.status(HTTP_STATUS.BAD_REQUEST).json({ message: 'Fail to get all books' })
         }
     }
+    public async getOne(req: Request, res: Response): Promise<void> {
+        try {
+            const book = await bookService.getBookById(req.params.id);
+            res.status(HTTP_STATUS.OK).json(book);
+        } catch (error) {
+            res.status(HTTP_STATUS.BAD_REQUEST).json({ message: 'Fail to get all books' })
+        }
+    }
 }
