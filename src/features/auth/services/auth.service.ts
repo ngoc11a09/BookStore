@@ -3,15 +3,15 @@ import { config } from "@root/config";
 import { ObjectId } from "mongodb";
 import { IUserDocument } from "@root/features/user/interfaces/user.interface";
 import { UserModel } from "@root/features/user/models/user.schema";
+import mongoose from "mongoose";
 
 class AuthService {
-    public async updateRefreshToken(userId: string | ObjectId, refreshToken: string) {
-        await UserModel.updateOne(
-            { _id: userId },
+    public async updateRefreshToken(_id: ObjectId, refreshToken: string) {
+        await UserModel.findByIdAndUpdate(_id,
             {
                 refreshToken: refreshToken
             }
-        )
+        ).exec()
     }
 
     public signToken(data: IUserDocument, userObjectId: ObjectId): { accessToken: string, refreshToken: string } {
@@ -28,6 +28,7 @@ class AuthService {
         )
         const refreshToken = jwt.sign({
             userId: userObjectId,
+            role: data.role,
             email: data.email,
             username: data.username,
         },
@@ -36,7 +37,7 @@ class AuthService {
                 expiresIn: "24h"
             }
         )
-        return { accessToken, refreshToken }
+        return { accessToken: accessToken, refreshToken: refreshToken }
     } // generate token
 }
 

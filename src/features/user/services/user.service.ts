@@ -55,7 +55,6 @@ class UserService {
 
         return res.deletedCount
     }
-
 }
 
 export const userService: UserService = new UserService()

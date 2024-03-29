@@ -22,9 +22,9 @@ export class SignIn {
             if (!passwordMatch) throw new BadRequestError('Invalid credentials')
 
             const token = authService.signToken(existingUser, existingUser._id as ObjectId)
-            authService.updateRefreshToken(existingUser._id, token.refreshToken)
+            await authService.updateRefreshToken(existingUser._id as ObjectId, token.refreshToken)
 
-            res.status(HTTP_STATUS.OK).json({ message: 'User login successfully', existingUser: existingUser.toJSON(), token: token })
+            res.status(HTTP_STATUS.OK).json({ message: 'User login successfully', token: token })
         } catch (error) {
             // console.log(error);
             if (error instanceof CustomError)

@@ -8,7 +8,7 @@ import { ObjectId } from "mongodb";
 import { Util } from "@root/shared/utils/util";
 import HTTP_STATUS from 'http-status-codes';
 
-export class Book {
+export class Create {
     @joiValidation(bookSchema)
     public async create(req: Request, res: Response): Promise<void> {
         try {
@@ -19,8 +19,12 @@ export class Book {
             }
             const bookId: ObjectId = new ObjectId()
 
-            const book: IBookDocument = Book.prototype.bookData({ ...req.body }, bookId)
-            bookService.addBook(book)
+            const book: IBookDocument = this.bookData({ ...req.body }, bookId)
+            try {
+                await bookService.addBook(book)
+            } catch (error) {
+                throw new BadRequestError('Cannot add a new book')
+            }
             res.status(HTTP_STATUS.CREATED).json({ message: 'Add a new book successfully', book: book });
         } catch (error) {
             if (error instanceof CustomError)
