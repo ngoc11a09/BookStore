@@ -10,7 +10,6 @@ export class CurrentUser {
         let token = null
         let user = null
         const existingUser: IUserDocument = (await userService.getUserById(`${req.currentUser!.userId}`))
-        console.log(existingUser);
 
         if (existingUser) {
             isUser = true

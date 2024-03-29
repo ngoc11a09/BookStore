@@ -14,30 +14,23 @@ export class Create {
         try {
             const { code } = req.body
             const isBookExist: IBookDocument = await bookService.getBookByCode(code)
-            if (isBookExist) {
+
+            if (isBookExist != null) {
                 throw new BadRequestError('This book existed')
             }
             const bookId: ObjectId = new ObjectId()
 
-            const book: IBookDocument = this.bookData({ ...req.body }, bookId)
+            const book: IBookDocument = Create.prototype.bookData({ ...req.body }, bookId)
+
             try {
-                await bookService.addBook(book)
+                bookService.addBook(book)
+                res.status(HTTP_STATUS.CREATED).json({ message: 'Add a new book successfully', book: book });
             } catch (error) {
                 throw new BadRequestError('Cannot add a new book')
             }
-            res.status(HTTP_STATUS.CREATED).json({ message: 'Add a new book successfully', book: book });
         } catch (error) {
             if (error instanceof CustomError)
                 res.status(HTTP_STATUS.BAD_REQUEST).json({ message: error.message })
-        }
-    }
-
-    public async getAll(req: Request, res: Response): Promise<void> {
-        try {
-            const books = await bookService.getAll();
-            res.status(HTTP_STATUS.OK).json(books);
-        } catch (error) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({ message: 'Fail to get all books' })
         }
     }
 
@@ -45,13 +38,13 @@ export class Create {
         const { code, title, publishCode, publishYear, author, quantity, price, } = data;
         return {
             _id: bookId,
-            code,
-            title,
-            publishCode,
-            publishYear,
+            code: code,
+            title: title,
+            publishCode: publishCode,
+            publishYear: publishYear,
             author: Util.firstLetterUppercase(author),
-            quantity,
-            price
+            quantity: quantity,
+            price: price
         } as IBookDocument
     }
 }

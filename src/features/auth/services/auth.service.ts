@@ -23,7 +23,7 @@ class AuthService {
         },
             config.JWT_ACCESS_TOKEN!,
             {
-                expiresIn: "5m"
+                expiresIn: "1h"
             }
         )
         const refreshToken = jwt.sign({

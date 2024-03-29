@@ -13,7 +13,7 @@ class UserRoutes {
     }
 
     public routes(): Router {
-        this.router.post('/:id', Info.prototype.updateInfo)
+        this.router.put('/:id', Info.prototype.updateInfo)
         this.router.get('/', Get.prototype.getAll)
         this.router.get('/:id', authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Get.prototype.getUser)
         this.router.delete('/:id', authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Delete.prototype.deleteUser);

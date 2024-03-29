@@ -13,13 +13,14 @@ export default class AuthMiddleware {
     public verifyUser(req: Request, res: Response, next: NextFunction): void {
         try {
             const authHeader = req.header('Authorization')
+
             const token = authHeader && authHeader.split(' ')[1]
 
             if (!token)
                 throw new NotAuthorizedError('Token is not available. Please login again.')
 
             try {
-                const payload: AuthPayload = jwt.verify(token, config.JWT_ACCESS_TOKEN!) as AuthPayload
+                const payload: AuthPayload = jwt.verify(token, config.JWT_REFRESH_TOKEN!) as AuthPayload
                 req.currentUser = payload
             } catch (error) {
                 if (error instanceof CustomError) res.status(HTTP_STATUS.BAD_REQUEST).json({ message: error.message })

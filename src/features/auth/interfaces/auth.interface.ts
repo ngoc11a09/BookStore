@@ -10,11 +10,9 @@ declare global {
 
 export interface AuthPayload {
     userId: string,
-    uId: string,
     email: string,
     userName: string,
     role: string,
-    iat?: number
 }
 export interface ISignUpData {
     _id: ObjectId

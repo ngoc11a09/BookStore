@@ -1,5 +1,6 @@
-import { IBookDocument } from "../interfaces/book.interface";
-import { BookModel } from "../models/book.model";
+import { IBookDocument } from "@book/interfaces/book.interface";
+import { BookModel } from "@book/models/book.model";
+import mongoose from "mongoose";
 
 class BookService {
     public async addBook(data: IBookDocument): Promise<void> {
@@ -14,16 +15,15 @@ class BookService {
     }
 
     public async updateBookInfo(id: string, info: IBookDocument): Promise<void> {
-        await BookModel.findByIdAndUpdate(id, {
-            $set: {
-                code: info['code'],
-                title: info['title'],
-                price: info['price'],
-                publishYear: info['publishYear'],
-                publishCode: info['publishCode'],
-                author: info['author']
-            }
-        })
+        const _id = new mongoose.Types.ObjectId(id)
+        await BookModel.findByIdAndUpdate(_id, {
+            code: info['code'],
+            title: info['title'],
+            price: info['price'],
+            publishYear: info['publishYear'],
+            publishCode: info['publishCode'],
+            author: info['author']
+        }).exec()
     }
 
     public async getAll(): Promise<IBookDocument[]> {

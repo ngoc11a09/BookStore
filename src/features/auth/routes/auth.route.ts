@@ -1,7 +1,6 @@
 import express, { Router } from "express";
 import { SignUp } from "@auth/controllers/signup.controller";
 import { SignIn } from "../controllers/signin.controller";
-
 class AuthRoutes {
     private router: Router
 

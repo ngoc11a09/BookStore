@@ -12,7 +12,6 @@ export default (app: Application) => {
         app.use(BASE_PATH, authRoutes.routes());
         app.use(`${BASE_PATH}/book`, bookRoute.routes());
         app.use(`${BASE_PATH}/currentuser`, authMiddleware.verifyUser, currentUserRoutes.routes())
-        // app.use(`${BASE_PATH}/user`, userRoutes.routes())
         app.use(`${BASE_PATH}/user`, authMiddleware.verifyUser, userRoutes.routes())
     }
     routes()
