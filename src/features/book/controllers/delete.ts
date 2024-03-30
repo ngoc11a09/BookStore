@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import HTTP_STATUS from 'http-status-codes';
-import { bookService } from "../services/book.service";
+import { bookService } from "@book/services/book.service";
 
 
 export class Delete {

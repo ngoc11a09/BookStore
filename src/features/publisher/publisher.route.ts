@@ -4,6 +4,7 @@ import express, { Router } from "express";
 import { Create } from "@publisher/controllers/create";
 import { Get } from "@publisher/controllers/get";
 import { Update } from "@publisher/controllers/update";
+import { Delete } from "@publisher/controllers/delete";
 
 class PublisherRoutes {
     private router: Router
@@ -17,6 +18,8 @@ class PublisherRoutes {
         this.router.get('/', Get.prototype.getAll)
         this.router.get('/:id', Get.prototype.getOne)
         this.router.put('/update/:id', authMiddleware.verifyUser, authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Update.prototype.updatePublisher)
+        this.router.delete('/delete/:id', authMiddleware.verifyUser, authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Delete.prototype.deleteOne)
+        this.router.delete('/delete', authMiddleware.verifyUser, authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Delete.prototype.deleteAll)
 
         return this.router
     }
