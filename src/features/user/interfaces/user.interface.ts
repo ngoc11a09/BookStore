@@ -29,10 +29,5 @@ export interface IBasicInfo {
     gender: '0' | '1' | 'unknow'
     phone: string
     address: string
-}
-
-export interface ISearchUser {
-    _id: string
-    username: string
-    email: string
+    role: 'user' | 'admin'
 }

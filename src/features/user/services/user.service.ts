@@ -38,6 +38,7 @@ class UserService {
         await UserModel.findOneAndUpdate({ _id: _id }, {
             address: info['address'],
             sex: info['gender'],
+            role: info['role'],
             name: info['name'],
             lastName: info['lastName'],
             phone: info['phone'],

@@ -9,9 +9,9 @@ export class Info {
     @joiValidation(basicInfoSchema)
     public async updateInfo(req: Request, res: Response): Promise<void> {
         const id: string = req.params.id
-        const { name, lastName, birthday, gender, phone, address } = req.body
+        const { name, lastName, birthday, gender, phone, address, role } = req.body
         try {
-            await userService.updateUserInfo(id, { name, lastName, birthday, gender, phone, address } as IBasicInfo)
+            await userService.updateUserInfo(id, { name, lastName, birthday, gender, phone, address, role } as IBasicInfo)
             res.status(HTTP_STATUS.OK).json({ message: "Updated successfully" })
         } catch (error) {
             // console.log(error);
