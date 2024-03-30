@@ -16,7 +16,7 @@ export class Create {
             const isBookExist: IBookDocument = await bookService.getBookByCode(code)
 
             if (isBookExist != null) {
-                throw new BadRequestError('This book existed')
+                throw new BadRequestError('This code existed')
             }
             const bookId: ObjectId = new ObjectId()
 
@@ -35,7 +35,7 @@ export class Create {
     }
 
     private bookData(data: IBookDocument, bookId: ObjectId): IBookDocument {
-        const { code, title, publishCode, publishYear, author, quantity, price, } = data;
+        const { code, title, publishCode, publishYear, author, quantity, price } = data;
         return {
             _id: bookId,
             code: code,

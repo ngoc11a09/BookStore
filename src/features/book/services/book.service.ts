@@ -29,6 +29,16 @@ class BookService {
     public async getAll(): Promise<IBookDocument[]> {
         return await BookModel.find({}) as IBookDocument[]
     }
+    public async deleteBook(id: string): Promise<void> {
+        const _id = new mongoose.Types.ObjectId(id)
+        await BookModel.deleteOne({ _id }).exec()
+    }
+
+    public async deleteAllBooks(): Promise<number> {
+        const res = await BookModel.deleteMany().exec()
+
+        return res.deletedCount
+    }
 }
 
 export const bookService: BookService = new BookService()
