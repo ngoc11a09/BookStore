@@ -2,6 +2,7 @@ import { authMiddleware } from "@root/shared/utils/auth-middleware";
 import { permissionMiddleware } from "@root/shared/utils/permission-middleware";
 import express, { Router } from "express";
 import { Create } from "@publisher/controllers/create";
+import { Get } from "@publisher/controllers/get";
 
 class PublisherRoutes {
     private router: Router
@@ -12,6 +13,8 @@ class PublisherRoutes {
 
     public routes(): Router {
         this.router.post('/add', authMiddleware.verifyUser, authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Create.prototype.create)
+        this.router.get('/', Get.prototype.getAll)
+        this.router.get('/:id', Get.prototype.getOne)
 
         return this.router
     }
