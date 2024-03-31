@@ -17,6 +17,7 @@ export interface IUserDocument extends Document {
     birthday: Date
     gender: '0' | '1' | 'unknow'
     phone: string,
+    position: string,
     comparePassword(password: string): Promise<boolean>
     hashPassword(password: string): Promise<string>
     refreshToken: string | null
@@ -29,5 +30,6 @@ export interface IBasicInfo {
     gender: '0' | '1' | 'unknow'
     phone: string
     address: string
+    position: string
     role: 'user' | 'admin'
 }

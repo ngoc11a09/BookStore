@@ -6,7 +6,6 @@ const userSchema: Schema = new Schema({
     name: { type: String, default: '' },
     lastName: { type: String, default: '' },
     role: { type: String, default: 'user' },
-    borrowed: { type: Number, default: 0 },
     birthday: { type: Date, default: new Date(1 / 1 / 2000) },
     gender: { type: String, default: 'unknow' },
     address: { type: String, default: '' },
@@ -15,6 +14,7 @@ const userSchema: Schema = new Schema({
     uId: { type: String },
     email: { type: String },
     password: { type: String },
+    position: { type: String, default: '' },
     refreshToken: { type: String, default: null }
 },
     {

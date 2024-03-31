@@ -34,13 +34,14 @@ export class SignUp {
     }
 
     private userData(data: ISignUpData, userObjectId: ObjectId): IUserDocument {
-        const { username, email, password, uId } = data
+        const { username, email, password, uId, role } = data
         return {
             _id: userObjectId,
             uId,
             username,
             email: Util.lowerCase(email),
             password,
+            role
         } as IUserDocument
     } // init user's data
 }

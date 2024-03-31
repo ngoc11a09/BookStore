@@ -21,8 +21,8 @@ const basicInfoSchema: ObjectSchema = Joi.object().keys({
     gender: Joi.string().messages({
         'string.base': 'Gender should be a type of string',
     }),
-    role: Joi.string().messages({
-        'string.base': 'Role should be a type of string',
+    position: Joi.string().messages({
+        'string.base': 'Position should be a type of string'
     })
 });
 

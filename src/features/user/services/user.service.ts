@@ -35,14 +35,18 @@ class UserService {
     public async updateUserInfo(userId: string, info: IBasicInfo): Promise<void> {
         // console.log(userId);
         const _id = new mongoose.Types.ObjectId(userId)
+        let birthday: Date
+        if (info['birthday']) birthday = new Date(info['birthday'])
+        else birthday = new Date(1 / 1 / 2000)
+
         await UserModel.findOneAndUpdate({ _id: _id }, {
             address: info['address'],
             sex: info['gender'],
-            role: info['role'],
             name: info['name'],
             lastName: info['lastName'],
             phone: info['phone'],
-            birthday: new Date(info['birthday'])
+            position: info['position'],
+            birthday: birthday
         }).exec()
     }
 

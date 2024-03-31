@@ -19,7 +19,7 @@ export class Delete {
             const num = await publisherService.deleteAllPublishers()
             res.status(HTTP_STATUS.OK).json({ message: `Delete ${num} publisher${num < 2 ? '' : 's'} successfully` })
         } catch (error) {
-            res.status(HTTP_STATUS.BAD_REQUEST).json({ message: "An error occurred while deleting all publisher" })
+            res.status(HTTP_STATUS.BAD_REQUEST).json({ message: "An error occurred while deleting all publishers" })
         }
     }
 }

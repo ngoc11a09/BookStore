@@ -2,7 +2,7 @@ import { authMiddleware } from "@root/shared/utils/auth-middleware";
 import express, { Router } from "express";
 import { Get } from "@root/features/user/controllers/get";
 import { permissionMiddleware } from "@root/shared/utils/permission-middleware";
-import { Info } from "@user/controllers/info";
+import { Update } from "@user/controllers/update";
 import { Delete } from "@user/controllers/delete";
 
 class UserRoutes {
@@ -13,7 +13,7 @@ class UserRoutes {
     }
 
     public routes(): Router {
-        this.router.put('/:id', Info.prototype.updateInfo)
+        this.router.put('/:id', Update.prototype.updateInfo)
         this.router.get('/', Get.prototype.getAll)
         this.router.get('/:id', authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Get.prototype.getUser)
         this.router.delete('/:id', authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Delete.prototype.deleteUser);
