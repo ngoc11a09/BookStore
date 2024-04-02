@@ -46,7 +46,7 @@ export default class Server {
       log.error("Global Error", error);
       if (error instanceof CustomError)
         return res.status(error.statusCode).json(error.serializeErrors())
-      next()
+      return res.status(500)
     })
   }
 
