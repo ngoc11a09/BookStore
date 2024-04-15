@@ -5,12 +5,20 @@ import mongoose from "mongoose";
 
 class UserService {
 
-    public async addUserData(data: IUserDocument): Promise<void> {
+    public async addUser(data: IUserDocument): Promise<void> {
         await UserModel.create(data)
     }
 
-    public async getAllUsers(): Promise<IUserDocument[]> {
+    public async getAll(): Promise<IUserDocument[]> {
         return await UserModel.find({}) as IUserDocument[]
+    }
+
+    public async getAllUsers(): Promise<IUserDocument[]> {
+        return await UserModel.find({ role: 'user' }) as IUserDocument[]
+    }
+
+    public async getAllAdmins(): Promise<IUserDocument[]> {
+        return await UserModel.find({ role: 'admin' }) as IUserDocument[]
     }
 
     public async getUserByUsernameEmail(username: string, email: string): Promise<IUserDocument> {
@@ -22,6 +30,10 @@ class UserService {
 
     public async getUserByUsername(username: string): Promise<IUserDocument> {
         return (await UserModel.findOne({ username: username }).exec()) as IUserDocument
+    }
+
+    public async getUserByUId(uId: string): Promise<IUserDocument> {
+        return (await UserModel.findOne({ uId: uId }).exec()) as IUserDocument
     }
 
     public async getUserByEmail(email: string): Promise<IUserDocument> {

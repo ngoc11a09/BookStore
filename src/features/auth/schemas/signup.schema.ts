@@ -18,9 +18,6 @@ const signUpSchema: ObjectSchema = Joi.object().keys({
         'string.email': 'Email must be valid',
         'string.empty': 'Email is a required field'
     }),
-    role: Joi.string().messages({
-        'string.base': 'Role must be of type string',
-    })
 })
 
 export { signUpSchema }

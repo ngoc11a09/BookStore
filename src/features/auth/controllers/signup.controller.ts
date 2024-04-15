@@ -25,7 +25,7 @@ export class SignUp {
             const user: IUserDocument = SignUp.prototype.userData({ ...req.body, uId }, userObjectId)
             const userJwt: string = authService.signToken({ username, password, email, role } as IUserDocument, userObjectId).accessToken
             // console.log(user);
-            userService.addUserData(user)
+            userService.addUser(user)
             res.status(HTTP_STATUS.CREATED).json({ message: 'User registered successfully', user: user, accessToken: userJwt });
         } catch (error) {
             if (error instanceof CustomError)

@@ -9,7 +9,7 @@ export interface IUserDocument extends Document {
     uId: string
     role: 'user' | 'admin'
     borrowed: number
-    address: string
+    address: string[]
     createdAt: Date
     updatedAt: Date
     name: string
@@ -29,7 +29,6 @@ export interface IBasicInfo {
     birthday: Date
     gender: '0' | '1' | 'unknow'
     phone: string
-    address: string
+    address: string[]
     position: string
-    role: 'user' | 'admin'
 }

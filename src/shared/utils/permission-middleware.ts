@@ -1,14 +1,10 @@
 import { NextFunction, Request, Response } from "express";
 import { CustomError, NotAuthorizedError, NotPermissionError } from "./error-handler";
 import jwt from 'jsonwebtoken'
-import Logger from "bunyan";
 import { config } from '@root/config'
 import { AuthPayload } from "@root/features/auth/interfaces/auth.interface";
 import HTTP_STATUS from 'http-status-codes';
-import AuthMiddleware from "./auth-middleware";
 
-
-const log: Logger = config.createLogger('AuthMiddleware')
 
 export default class PermissionMiddleware {
     public verifyRole(req: Request, res: Response, next: NextFunction): void {

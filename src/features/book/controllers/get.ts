@@ -14,7 +14,7 @@ export class Get {
     public async getOne(req: Request, res: Response): Promise<void> {
         try {
             const book = await bookService.getBookById(req.params.id);
-            res.status(HTTP_STATUS.OK).json(book);
+            res.status(HTTP_STATUS.OK).json({ message: 'Get book successfully', book: book });
         } catch (error) {
             res.status(HTTP_STATUS.BAD_REQUEST).json({ message: 'Cannot get a book' })
         }

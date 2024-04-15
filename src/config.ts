@@ -1,5 +1,4 @@
 import dotenv from "dotenv"
-import bunyan from "bunyan"
 
 dotenv.config()
 
@@ -26,10 +25,6 @@ class Config {
         this.NODE_ENV = process.env.NODE_ENV || ""
         this.CLIENT_URL = process.env.CLIENT_URL || ""
         this.SECRET_KEY_TWO = process.env.SECRET_KEY_TWO || ""
-    }
-
-    public createLogger(name: string): bunyan {
-        return bunyan.createLogger({ name, level: "debug" });
     }
 
     public validateConfig(): void {

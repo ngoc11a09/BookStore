@@ -1,6 +1,6 @@
 import { joiValidation } from "@root/shared/decorators/joi-validation.decorator";
 import { signInSchema } from "../schemas/signin.schema";
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { authService } from "../services/auth.service";
 import { BadRequestError, CustomError } from "@root/shared/utils/error-handler";
 import { IUserDocument } from "@root/features/user/interfaces/user.interface";
@@ -10,9 +10,8 @@ import { ObjectId } from "mongodb";
 
 export class SignIn {
     @joiValidation(signInSchema)
-    public async read(req: Request, res: Response): Promise<void> {
+    public async read(req: Request, res: Response, next: NextFunction): Promise<void> {
         try {
-
             const { username, password } = req.body
             const existingUser: IUserDocument = await userService.getUserByUsername(username)
 
@@ -22,13 +21,15 @@ export class SignIn {
             if (!passwordMatch) throw new BadRequestError('Invalid credentials')
 
             const token = authService.signToken(existingUser, existingUser._id as ObjectId)
-            await authService.updateRefreshToken(existingUser._id as ObjectId, token.refreshToken)
+            //await authService.updateRefreshToken(existingUser._id as ObjectId, token.refreshToken)
+            //console.log(token);
 
-            res.status(HTTP_STATUS.OK).json({ message: 'User login successfully', token: token })
+            const { uId, role } = existingUser
+
+            res.status(HTTP_STATUS.OK).json({ message: 'User login successfully', user: { uId, username, role }, accessToken: token.accessToken })
         } catch (error) {
-            // console.log(error);
-            if (error instanceof CustomError)
-                res.status(HTTP_STATUS.BAD_REQUEST).json({ message: error.message })
+            next(error)
         }
+
     }
 }

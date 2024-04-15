@@ -12,11 +12,11 @@ const BASE_PATH = '/api';
 export default (app: Application) => {
     const routes = () => {
         app.use(BASE_PATH, authRoutes.routes());
-        app.use(`${BASE_PATH}/book`, bookRoute.routes());
-        app.use(`${BASE_PATH}/currentuser`, authMiddleware.verifyUser, currentUserRoutes.routes())
-        app.use(`${BASE_PATH}/user`, authMiddleware.verifyUser, userRoutes.routes())
-        app.use(`${BASE_PATH}/publisher`, authMiddleware.verifyUser, publisherRoute.routes())
-        app.use(`${BASE_PATH}/borrow`, authMiddleware.verifyUser, borrowRoute.routes())
+        app.use(`${BASE_PATH}/books`, bookRoute.routes());
+        app.use(`${BASE_PATH}/currentusers`, authMiddleware.verifyUser, currentUserRoutes.routes())
+        app.use(`${BASE_PATH}/users`, authMiddleware.verifyUser, userRoutes.routes())
+        app.use(`${BASE_PATH}/publishers`, authMiddleware.verifyUser, publisherRoute.routes())
+        app.use(`${BASE_PATH}/borrows`, authMiddleware.verifyUser, borrowRoute.routes())
     }
     routes()
 }

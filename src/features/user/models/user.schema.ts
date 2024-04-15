@@ -8,7 +8,7 @@ const userSchema: Schema = new Schema({
     role: { type: String, default: 'user' },
     birthday: { type: Date, default: new Date(1 / 1 / 2000) },
     gender: { type: String, default: 'unknow' },
-    address: { type: String, default: '' },
+    address: [{ type: String, default: '' }],
     phone: { type: String, default: '' },
     username: { type: String },
     uId: { type: String },
