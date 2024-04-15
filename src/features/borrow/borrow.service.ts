@@ -11,32 +11,31 @@ class BorrowService {
     public async getBorrowByUserCode(code: string): Promise<IBorrowDocument> {
         return (await BorrowModel.findOne({ userCode: code }).exec()) as IBorrowDocument
     }
-
-    public async getBorrowByAdminCode(code: string): Promise<IBorrowDocument> {
-        return (await BorrowModel.findOne({ adminCode: code }).exec()) as IBorrowDocument
+    public async getBorrowByCode(code: string): Promise<IBorrowDocument> {
+        return (await BorrowModel.findOne({ code: code }).exec()) as IBorrowDocument
     }
 
     public async getBorrowById(id: string): Promise<IBorrowDocument> {
         return (await BorrowModel.findById(id).exec()) as IBorrowDocument
     }
 
-    public async getBorrowByBorrowedDay(day: Date): Promise<IBorrowDocument> {
-        return (await BorrowModel.findOne({ borrowedDay: day }).exec()) as IBorrowDocument
+    public async getBorrowByBorrowedDate(day: Date): Promise<IBorrowDocument> {
+        return (await BorrowModel.findOne({ borrowedDate: day }).exec()) as IBorrowDocument
     }
 
-    public async getBorrowByReturnDay(day: Date): Promise<IBorrowDocument> {
-        return (await BorrowModel.findOne({ returnDay: day }).exec()) as IBorrowDocument
+    public async getBorrowByReturnDate(day: Date): Promise<IBorrowDocument> {
+        return (await BorrowModel.findOne({ returnDate: day }).exec()) as IBorrowDocument
     }
 
     @joiValidation(borrowSchema)
     public async updateBorrowInfo(id: string, info: IBorrowDocument): Promise<void> {
         const _id = new mongoose.Types.ObjectId(id)
         await BorrowModel.findByIdAndUpdate(_id, {
+            code: info['code'],
             userCode: info['userCode'],
-            adminCode: info['adminCode'],
             bookCode: info['bookCode'],
-            borrowedDay: info['borrowedDay'],
-            returnDay: info['returnDay'],
+            borrowedDate: info['borrowedDate'],
+            returnDate: info['returnDate'],
         }).exec()
     }
 

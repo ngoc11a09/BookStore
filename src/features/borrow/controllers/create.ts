@@ -6,6 +6,7 @@ import { IBorrowDocument } from '@borrow/borrow.interface';
 import { borrowService } from '@borrow/borrow.service';
 import { Request, Response } from 'express';
 import { BadRequestError, CustomError } from '@root/shared/utils/error-handler';
+import mongoose from 'mongoose';
 
 export class Create {
     @joiValidation(borrowSchema)
@@ -14,6 +15,8 @@ export class Create {
             const borrowId: ObjectId = new ObjectId()
 
             const borrow: IBorrowDocument = Create.prototype.borrowData({ ...req.body }, borrowId)
+            const isCodeExist = await borrowService.getBorrowByCode(req.body.code)
+            if (isCodeExist) throw new BadRequestError('Borrow\'s code is used')
 
             try {
                 borrowService.addBorrow(borrow)
@@ -28,13 +31,14 @@ export class Create {
     }
 
     private borrowData(data: IBorrowDocument, borrowId: ObjectId): IBorrowDocument {
-        const { userCode, adminCode, borrowedDay, returnDay } = data;
+        const { userCode, borrowedDate, returnDate, code, bookCode } = data;
         return {
             _id: borrowId,
+            code: code,
+            bookCode: bookCode,
             userCode: userCode,
-            adminCode: adminCode,
-            borrowedDay: borrowedDay,
-            returnDay: returnDay
+            borrowedDate: borrowedDate,
+            returnDate: returnDate
         } as IBorrowDocument
     }
 }
