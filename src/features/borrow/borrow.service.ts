@@ -39,8 +39,8 @@ class BorrowService {
         }).exec()
     }
 
-    public async getAll(): Promise<IBorrowDocument[]> {
-        return await BorrowModel.find({}) as IBorrowDocument[]
+    public async getAll(query: any): Promise<IBorrowDocument[]> {
+        return await BorrowModel.find({ ...query }) as IBorrowDocument[]
     }
     public async deleteBorrow(id: string): Promise<void> {
         const _id = new mongoose.Types.ObjectId(id)

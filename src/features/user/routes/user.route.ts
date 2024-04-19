@@ -14,7 +14,7 @@ class UserRoutes {
     }
 
     public routes(): Router {
-        this.router.put('/:id', Update.prototype.updateInfo)
+        this.router.patch('/:id', authMiddleware.checkAuthentication, Update.prototype.updateInfo)
         this.router.post('/add', authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Create.prototype.create)
         this.router.get('/', Get.prototype.getAll)
         this.router.get('/user', Get.prototype.getAllUsers)

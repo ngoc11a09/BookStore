@@ -15,7 +15,7 @@ export default (app: Application) => {
         app.use(`${BASE_PATH}/books`, bookRoute.routes());
         app.use(`${BASE_PATH}/currentusers`, authMiddleware.verifyUser, currentUserRoutes.routes())
         app.use(`${BASE_PATH}/users`, authMiddleware.verifyUser, userRoutes.routes())
-        app.use(`${BASE_PATH}/publishers`, authMiddleware.verifyUser, publisherRoute.routes())
+        app.use(`${BASE_PATH}/publishers`, publisherRoute.routes())
         app.use(`${BASE_PATH}/borrows`, authMiddleware.verifyUser, borrowRoute.routes())
     }
     routes()

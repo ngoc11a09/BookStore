@@ -25,12 +25,19 @@ export class SignUp {
             const user: IUserDocument = SignUp.prototype.userData({ ...req.body, uId }, userObjectId)
             const userJwt: string = authService.signToken({ username, password, email, role } as IUserDocument, userObjectId).accessToken
             // console.log(user);
-            userService.addUser(user)
-            res.status(HTTP_STATUS.CREATED).json({ message: 'User registered successfully', user: user, accessToken: userJwt });
+            await userService.addUser(user)
+            res.status(HTTP_STATUS.CREATED).json({ message: 'User registered successfully', user: SignUp.prototype.removePass(user), accessToken: userJwt });
         } catch (error) {
+            console.log(error);
+
             if (error instanceof CustomError)
                 res.status(HTTP_STATUS.BAD_REQUEST).json({ message: error.message })
         }
+    }
+
+    private removePass(user: IUserDocument): any {
+        const { password, ...res } = user
+        return { ...res }
     }
 
     private userData(data: ISignUpData, userObjectId: ObjectId): IUserDocument {

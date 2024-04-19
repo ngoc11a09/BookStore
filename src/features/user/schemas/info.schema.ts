@@ -68,6 +68,9 @@ const userSchema: ObjectSchema = Joi.object().keys({
     }),
     position: Joi.string().messages({
         'string.base': 'Position should be a type of string'
+    }),
+    role: Joi.string().messages({
+        'string.base': 'Role should be a type of string'
     })
 });
 

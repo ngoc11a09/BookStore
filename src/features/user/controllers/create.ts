@@ -35,10 +35,10 @@ export class Create {
     }
 
     private userData(data: IUserDocument, _id: ObjectId): IUserDocument {
-        const { username, password, email, name, lastName, phone, address, gender, birthday } = data;
+        const { username, password, email, name, lastName, phone, address, gender, birthday, role } = data;
         return {
             _id: _id,
-            uId: `${Util.randomInt(10)}`,
+            uId: `B${Util.randomInt(6)}`,
             username,
             password,
             email,
@@ -47,7 +47,8 @@ export class Create {
             phone,
             address,
             gender,
-            birthday
+            birthday,
+            role
         } as IUserDocument
     }
 }
