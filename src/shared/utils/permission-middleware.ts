@@ -17,8 +17,7 @@ export default class PermissionMiddleware {
 
             try {
                 const payload: AuthPayload = jwt.verify(token, config.JWT_ACCESS_TOKEN!) as AuthPayload
-                if (payload.role === 'user')
-                    throw new NotPermissionError('You have no permission.')
+                if (payload.role === 'user') throw new NotPermissionError('You have no permission.')
             } catch (error) {
                 if (error instanceof CustomError) res.status(HTTP_STATUS.FORBIDDEN).json({ message: error.message })
             }

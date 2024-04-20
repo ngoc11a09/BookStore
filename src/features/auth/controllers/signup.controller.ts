@@ -24,7 +24,7 @@ export class SignUp {
 
             const user: IUserDocument = SignUp.prototype.userData({ ...req.body, uId }, userObjectId)
             const userJwt: string = authService.signToken({ username, password, email, role } as IUserDocument, userObjectId).accessToken
-            // console.log(user);
+
             await userService.addUser(user)
             res.status(HTTP_STATUS.CREATED).json({ message: 'User registered successfully', user: SignUp.prototype.removePass(user), accessToken: userJwt });
         } catch (error) {
@@ -48,7 +48,7 @@ export class SignUp {
             username,
             email: Util.lowerCase(email),
             password,
-            role
+            role: role ? role : 'user'
         } as IUserDocument
     } // init user's data
 }

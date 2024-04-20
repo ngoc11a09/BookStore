@@ -10,7 +10,6 @@ export default class AuthMiddleware {
     public verifyUser(req: Request, res: Response, next: NextFunction): void {
         try {
             const authHeader = req.header('Authorization')
-
             const token = authHeader && authHeader.split(' ')[1]
 
             if (!token)

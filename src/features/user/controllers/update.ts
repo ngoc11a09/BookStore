@@ -13,7 +13,7 @@ export class Update {
             await userService.updateUserInfo(id, { ...req.body } as IBasicInfo)
             res.status(HTTP_STATUS.OK).json({ message: "Updated successfully" })
         } catch (error) {
-            console.log(error);
+            // console.slog(error);
             res.status(HTTP_STATUS.BAD_REQUEST).json({ message: "An error occurred while updating user" })
         }
     }

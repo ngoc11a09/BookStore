@@ -16,8 +16,6 @@ class BookService {
 
     public async updateBookInfo(id: string, info: IBookDocument): Promise<void> {
         const _id = new mongoose.Types.ObjectId(id)
-        console.log(info);
-
         await BookModel.findByIdAndUpdate(_id, {
             code: info['code'],
             title: info['title'],

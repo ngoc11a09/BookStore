@@ -24,9 +24,9 @@ export class SignIn {
             //await authService.updateRefreshToken(existingUser._id as ObjectId, token.refreshToken)
             //console.log(token);
 
-            const { uId, role } = existingUser
+            const { _id, role, email } = existingUser
 
-            res.status(HTTP_STATUS.OK).json({ message: 'User login successfully', user: { uId, username, role }, accessToken: token.accessToken })
+            res.status(HTTP_STATUS.OK).json({ message: 'User login successfully', user: { _id, email, username, role }, accessToken: token.accessToken })
         } catch (error) {
             next(error)
         }

@@ -40,6 +40,8 @@ class BorrowService {
     }
 
     public async getAll(query: any): Promise<IBorrowDocument[]> {
+        console.log(query);
+
         return await BorrowModel.find({ ...query }) as IBorrowDocument[]
     }
     public async deleteBorrow(id: string): Promise<void> {

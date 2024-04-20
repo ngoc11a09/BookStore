@@ -16,7 +16,7 @@ class AuthService {
 
     public signToken(data: IUserDocument, userObjectId: ObjectId): { accessToken: string, refreshToken: string } {
         const accessToken = jwt.sign({
-            userId: userObjectId,
+            _id: userObjectId,
             role: data.role,
             email: data.email,
             username: data.username,
@@ -27,7 +27,7 @@ class AuthService {
             }
         )
         const refreshToken = jwt.sign({
-            userId: userObjectId,
+            _id: userObjectId,
             role: data.role,
             email: data.email,
             username: data.username,

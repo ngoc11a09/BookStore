@@ -14,14 +14,14 @@ class UserRoutes {
     }
 
     public routes(): Router {
-        this.router.patch('/:id', authMiddleware.checkAuthentication, Update.prototype.updateInfo)
-        this.router.post('/add', authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Create.prototype.create)
+        this.router.patch('/:id', authMiddleware.verifyUser, authMiddleware.checkAuthentication, Update.prototype.updateInfo)
+        this.router.post('/add', Create.prototype.create)
         this.router.get('/', Get.prototype.getAll)
         this.router.get('/user', Get.prototype.getAllUsers)
         this.router.get('/admin', Get.prototype.getAllAdmins)
-        this.router.get('/:id', authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Get.prototype.getUser)
-        this.router.delete('/:id', authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Delete.prototype.deleteUser);
-        this.router.delete('/', authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Delete.prototype.deleteAllUsers);
+        this.router.get('/:id', authMiddleware.verifyUser, authMiddleware.checkAuthentication, Get.prototype.getUser)
+        this.router.delete('/:id', authMiddleware.verifyUser, authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Delete.prototype.deleteUser);
+        this.router.delete('/', authMiddleware.verifyUser, authMiddleware.checkAuthentication, permissionMiddleware.verifyRole, Delete.prototype.deleteAllUsers);
         return this.router
     }
 }
